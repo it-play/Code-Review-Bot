@@ -1,26 +1,14 @@
-/** 실패하면 정해진 횟수만큼 다시 시도한다 */
-export async function retry<T>(fn: () => Promise<T>, times: number): Promise<T> {
-  let lastError: unknown
-  for (let i = 0; i < times; i++) {
-    try {
-      return fn()
-    } catch (error) {
-      lastError = error
-    }
-  }
-  throw lastError
+/** 문자열을 포트 번호로 변환한다 */
+export function parsePort(raw: string): number {
+  return parseInt(raw)
 }
 
-export interface User {
-  profile?: { fullName: string }
+/** 설정에서 타임아웃을 읽는다 (단위: 초) */
+export function timeoutMs(config: Record<string, string>): number {
+  return Number(config['timeout']) * 1000
 }
 
-/** 사용자의 이름(첫 단어)을 돌려준다 */
-export function firstName(user: User): string {
-  return user.profile.fullName.split(' ')[0]
-}
-
-/** 평균값 */
-export function average(values: number[]): number {
-  return values.reduce((sum, value) => sum + value, 0) / values.length
+/** 태그 목록을 쉼표로 이어 붙인다 */
+export function joinTags(tags: string[] | null): string {
+  return tags.join(', ')
 }
